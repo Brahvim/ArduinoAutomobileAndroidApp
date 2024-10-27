@@ -1,0 +1,6 @@
+<resources>
+	
+	<string name="esp_mac">b0:b2:1c:4e:ad:80</string>
+	<string name="app_name">EspCamStreamViewer</string>
+
+</resources>

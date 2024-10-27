@@ -1,0 +1,41 @@
+plugins {
+
+	id 'com.android.application'
+
+}
+
+android {
+
+	compileSdk 33
+	namespace 'com.brahvim.esp_cam_stream_viewer'
+
+	defaultConfig {
+
+		minSdk 21
+		// noinspection ExpiredTargetSdkVersion
+		targetSdk 21
+		versionCode 1
+		versionName "1.0"
+		applicationId "com.brahvim.esp_cam_stream_viewer"
+
+	}
+
+	buildTypes {
+
+		release {
+
+			minifyEnabled false
+			viewBinding { enabled = true }
+
+		}
+
+	}
+
+	compileOptions {
+
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+
+	}
+
+}
