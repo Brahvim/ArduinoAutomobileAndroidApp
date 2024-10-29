@@ -9,6 +9,24 @@ android {
 	compileSdk 33
 	namespace 'com.brahvim.esp_cam_stream_viewer'
 
+	signingConfigs {
+
+		release {
+
+			keyAlias "signing-key"
+			storeFile file("./signing-key.jks")
+
+		}
+
+	}
+
+	compileOptions {
+
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+
+	}
+
 	defaultConfig {
 
 		minSdk 21
@@ -22,19 +40,21 @@ android {
 
 	buildTypes {
 
-		release {
+		debug {
 
 			minifyEnabled false
 			viewBinding { enabled = true }
 
 		}
 
-	}
+		release {
 
-	compileOptions {
+			debuggable true
+			minifyEnabled false // We want *no PG/R8*.
+			viewBinding { enabled = true }
+			signingConfig signingConfigs.release
 
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
+		}
 
 	}
 
