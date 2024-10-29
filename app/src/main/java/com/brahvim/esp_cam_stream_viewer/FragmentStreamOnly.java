@@ -61,6 +61,7 @@ public final class FragmentStreamOnly extends Fragment {
 
 		@Override
 		public void surfaceChanged(@NonNull final SurfaceHolder p_surfaceHolder, final int p_format, final int p_width, final int p_height) {
+			// Log.i(TAG, "Surface size changed!");
 		}
 
 	}
@@ -257,8 +258,12 @@ public final class FragmentStreamOnly extends Fragment {
 					// Log.i(TAG, String.format("Parameter value: `%d`.", valueContentLength));
 					imageBytesList.ensureCapacity(valueContentLength);
 
-					for (int j = 0; j < valueContentLength; ++j)
+					// noinspection ResultOfMethodCallIgnored
+					inputStream.skip(2); // Skip the next pair of `\r\n`! Also, // NOSONAR!
+
+					for (int j = 0; j < valueContentLength; ++j) {
 						imageBytesList.add((byte) inputStream.read());
+					}
 
 				} catch (final IOException e) {
 					Log.e(TAG, "Exception in attempting to fetch `/stream` via an `InputStream` :(");
@@ -266,18 +271,13 @@ public final class FragmentStreamOnly extends Fragment {
 				// endregion
 
 				// Unboxing `Byte` objects from the heap without a `reinterpret_cast<T>()` (this should be in native code or something!):
-				final int imageBytesListSize = imageBytesList.size(); // - 2; // Remove `\r\n`.
+				final int imageBytesListSize = imageBytesList.size();
 				final byte[] imageBytesArray = new byte[imageBytesListSize];
 
 				for (int i = 0; i < imageBytesListSize; ++i)
 					imageBytesArray[i] = imageBytesList.get(i);
 
-				// final int payloadStringEndingStartId = imageBytesListSize - 8;
-				// final int payloadStringEndingLength = imageBytesListSize - payloadStringEndingStartId;
-				// final String payloadStringEnding = new String(imageBytesArray, payloadStringEndingStartId, payloadStringEndingLength, StandardCharsets.US_ASCII);
-
 				Log.i(TAG, String.format("Got image data. Array size: `%d` bytes.", imageBytesListSize));
-				// Log.i(TAG, String.format("String ending: `%s`.", payloadStringEnding));
 
 				final Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytesArray, 0, imageBytesListSize);
 
@@ -286,8 +286,8 @@ public final class FragmentStreamOnly extends Fragment {
 
 				Log.i(TAG, "Decoded image.");
 
-				if (this.surfaceHolder.isCreating()) // Still wondering if we need this, because...
-					return;
+				// if (this.surfaceHolder.isCreating()) // Still wondering if we need this, because...
+				// 	return;
 
 				final Canvas canvas = this.surfaceHolder.lockCanvas(); // ...because this can be `null`! If that check fails!
 
@@ -297,11 +297,14 @@ public final class FragmentStreamOnly extends Fragment {
 					Log.i(TAG, "Frame drawn!");
 				}
 
+				bitmap.recycle();
+
 			} else {
 				Log.i(TAG, "Illegal response received!");
 			}
 
-		} catch (final IOException e) {
+		} catch (
+		  final IOException e) {
 			Log.e(TAG, "Exception in attempting to fetch `/stream` :(");
 			e.printStackTrace();
 		} finally {
