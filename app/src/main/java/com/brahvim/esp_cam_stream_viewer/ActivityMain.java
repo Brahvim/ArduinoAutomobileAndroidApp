@@ -39,36 +39,33 @@ public final class ActivityMain extends Activity {
 	// endregion
 
 	@SuppressWarnings("deprecation")
-	private void espIpFound(final String p_ip) {
+	private void cbckEspIpFound(final String p_ip) {
 		Log.i(TAG, String.format("ESP IP found: `%s`.", p_ip));
 		this.context.espIp = p_ip;
 
-		final FragmentStreamOnly fragmentCurrent = (FragmentStreamOnly) this.fragmentManager.findFragmentById(R.id.fragmentStream);
-		fragmentCurrent.threadStreamStart();
-
-		// super.runOnUiThread(() -> {
-		// 	final Fragment fragmentNext = new FragmentStreamOnly();
-		// 	this.fragmentManager.beginTransaction()
-		// 						.replace(R.id.fragmentStream, fragmentNext)
-		// 						.commit();
-		// });
+		super.runOnUiThread(() -> {
+			this.fragmentManager
+			  .beginTransaction()
+			  .replace(R.id.fragmentStream, new FragmentStreamControls())
+			  .commit();
+		});
 
 		this.arpCacheMonitorThreadDestroy();
 	}
 
+	// region ARP-cache monitor thread management methods.
 	private void arpCacheMonitorThreadCreate() {
 		this.arpCacheMonitor = new ThreadMonitorArpCache(this.context.getString(R.string.esp_mac)) {
 
 			@Override
 			protected void onIpFound(final String p_ip) {
-				ActivityMain.this.espIpFound(p_ip);
+				ActivityMain.this.cbckEspIpFound(p_ip);
 			}
 
 		};
 
 		this.arpCacheMonitor.start();
 	}
-
 
 	private void arpCacheMonitorThreadDestroy() {
 		if (this.arpCacheMonitor == null)
@@ -77,5 +74,6 @@ public final class ActivityMain extends Activity {
 		this.arpCacheMonitor.shutdown();
 		this.arpCacheMonitor = null;
 	}
+	// endregion
 
 }

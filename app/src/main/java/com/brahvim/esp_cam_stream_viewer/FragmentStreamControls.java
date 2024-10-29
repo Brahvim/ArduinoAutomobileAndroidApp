@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.brahvim.esp_cam_stream_viewer.databinding.FragmentStreamOnlyBinding;
+import com.brahvim.esp_cam_stream_viewer.databinding.FragmentStreamControlsBinding;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +28,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 @SuppressWarnings("deprecation")
-public final class FragmentStreamOnly extends Fragment {
+public final class FragmentStreamControls extends Fragment {
 
 	public static class SurfaceHolderCallbackEspStream implements SurfaceHolder.Callback {
 
@@ -64,11 +64,11 @@ public final class FragmentStreamOnly extends Fragment {
 	}
 
 	// region Fields.
-	private static final String TAG = ApplicationEspCamStreamViewer.formTag(FragmentStreamOnly.class);
+	private static final String TAG = ApplicationEspCamStreamViewer.formTag(FragmentStreamControls.class);
 	private final AtomicBoolean threadStreamShouldRun = new AtomicBoolean(true);
-	private FragmentStreamOnly.SurfaceHolderCallbackEspStream surfaceHolderCallbackEspStream;
+	private SurfaceHolderCallbackEspStream surfaceHolderCallbackEspStream;
 	private ApplicationEspCamStreamViewer context;
-	private FragmentStreamOnlyBinding binding;
+	private FragmentStreamControlsBinding binding;
 	private SurfaceHolder surfaceHolder;
 	private Activity activityHost;
 	private OkHttpClient client;
@@ -78,14 +78,14 @@ public final class FragmentStreamOnly extends Fragment {
 	// region Fragment lifecycle callbacks.
 	@Override
 	public View onCreateView(final LayoutInflater p_inflater, @Nullable final ViewGroup p_viewGroup, final Bundle p_saveState) {
-		this.binding = FragmentStreamOnlyBinding.inflate(p_inflater, p_viewGroup, false);
+		this.binding = FragmentStreamControlsBinding.inflate(p_inflater, p_viewGroup, false);
 
 		this.activityHost = super.getActivity();
 		this.context = (ApplicationEspCamStreamViewer) this.activityHost.getApplicationContext();
 		this.client = this.context.getClient();
 
 		this.surfaceHolder = this.binding.surfaceViewCamera.getHolder();
-		this.surfaceHolderCallbackEspStream = new FragmentStreamOnly.SurfaceHolderCallbackEspStream();
+		this.surfaceHolderCallbackEspStream = new SurfaceHolderCallbackEspStream();
 		this.surfaceHolder.addCallback(this.surfaceHolderCallbackEspStream);
 
 		this.threadStreamStart();

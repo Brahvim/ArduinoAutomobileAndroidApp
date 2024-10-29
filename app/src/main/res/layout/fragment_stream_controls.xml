@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<RelativeLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_gravity="center_horizontal|center_vertical"
 		android:layout_height="match_parent"
@@ -13,5 +13,17 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="center|center_horizontal|top"
 			/>
+	
+	<Button
+			android:layout_width="62dp"
+			android:layout_marginTop="53dp"
+			android:layout_marginBottom="611dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:id="@+id/buttonUp"
+			android:layout_below="@+id/surfaceViewCamera"
+			>
+		
+	</Button>
 
-</FrameLayout>
+</RelativeLayout>
