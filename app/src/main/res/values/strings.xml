@@ -1,7 +1,12 @@
 <resources>
 	
-	<string name="esp_mac">b0:b2:1c:4e:ad:80</string>
-	<string name="app_name">EspCamStreamViewer</string>
-	<string name="hello_blank_fragment">Waiting for ESP32-CAM...</string>
+	<string name="espMac" translatable="false">b0:b2:1c:4e:ad:80</string>
+	<string name="appName" translatable="false">EspCamStreamViewer</string>
+	<string name="labelTextViewWaitingFragmentAwaitConnect">Waiting for ESP32-CAM…</string>
+	
+	<string name="contentDescriptionButtonLeftFragmentStreamControls">Move Left</string>
+	<string name="contentDescriptionButtonUpFragmentStreamControls">Move Forward</string>
+	<string name="contentDescriptionButtonRightFragmentStreamControls">Move Right</string>
+	<string name="contentDescriptionButtonDownFragmentStreamControls">Move Backwards</string>
 
 </resources>
