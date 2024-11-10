@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class ThreadMonitorArpCache extends Thread {
+public abstract class ThreadArpCacheMonitor extends Thread {
 
 	// region Fields.
 	public static final long LOOP_INTERVAL_LOW = 1000;
@@ -15,15 +15,15 @@ public abstract class ThreadMonitorArpCache extends Thread {
 
 	// region Instance fields.
 	public final String macToFind;
-	public long loopInterval = ThreadMonitorArpCache.LOOP_INTERVAL_DAEMON;
+	public long loopInterval = ThreadArpCacheMonitor.LOOP_INTERVAL_DAEMON;
 
 	private final ArrayList<String> arpLines = new ArrayList<>();
 	private final AtomicBoolean shouldRun = new AtomicBoolean(true);
 	// endregion
 	// endregion
 
-	protected ThreadMonitorArpCache(final String p_macToFind) {
-		super.setName("Esp32CamStreamViewer:ArpMonitor");
+	protected ThreadArpCacheMonitor(final String p_macToFind) {
+		super.setName("EspCamStreamViewer:ArpMonitor");
 		this.macToFind = p_macToFind;
 	}
 

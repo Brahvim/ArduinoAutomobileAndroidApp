@@ -23,27 +23,37 @@
 			android:id="@+id/buttonLeft"
 			
 			android:alpha="0.5"
-			android:layout_width="75dp"
-			android:layout_height="75dp"
-			android:layout_below="@id/buttonUp"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
 			
-			android:src="@drawable/button_move_left"
+			android:backgroundTint="@android:color/transparent"
 			android:contentDescription="@string/contentDescriptionButtonLeftFragmentStreamControls"
+			android:layout_below="@+id/surfaceViewCamera"
+			android:src="@drawable/button_move_left"
+			android:layout_alignParentStart="true"
+			android:layout_marginStart="77dp"
+			android:layout_marginTop="315dp"
 			/>
 	
 	<ImageButton
 			android:id="@+id/buttonUp"
 			tools:ignore="RtlHardcoded"
 			
-			android:layout_width="75dp"
-			android:layout_height="75dp"
-			android:layout_marginTop="55dp"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:layout_marginBottom="0dp"
 			android:layout_toRightOf="@id/buttonLeft"
-			android:layout_below="@+id/surfaceViewCamera"
+			
+			android:contentDescription="@string/contentDescriptionButtonUpFragmentStreamControls"
+			android:src="@drawable/button_move_up"
 			
 			android:alpha="0.5"
-			android:src="@drawable/button_move_up"
-			android:contentDescription="@string/contentDescriptionButtonUpFragmentStreamControls"
+			android:layout_marginTop="-157dp"
+			android:layout_below="@+id/buttonLeft"
+			android:layout_toEndOf="@+id/buttonLeft"
+			android:backgroundTint="@android:color/transparent"
+			android:layout_marginStart="-40dp"
+			android:layout_marginLeft="-40dp"
 			/>
 	
 	<ImageButton
@@ -52,13 +62,16 @@
 			tools:ignore="RtlHardcoded"
 			
 			android:alpha="0.5"
-			android:layout_width="75dp"
-			android:layout_height="75dp"
-			android:layout_below="@id/buttonLeft"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
 			android:layout_toRightOf="@id/buttonLeft"
+			android:backgroundTint="@android:color/transparent"
 			
-			android:src="@drawable/button_move_down"
 			android:contentDescription="@string/contentDescriptionButtonDownFragmentStreamControls"
+			android:src="@drawable/button_move_down"
+			android:layout_below="@+id/buttonLeft"
+			android:layout_marginLeft="-40dp"
+			android:layout_marginTop="-40dp"
 			/>
 	
 	<ImageButton
@@ -67,13 +80,17 @@
 			tools:ignore="RtlHardcoded"
 			
 			android:alpha="0.5"
-			android:layout_width="75dp"
-			android:layout_height="75dp"
-			android:layout_below="@id/buttonUp"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
 			android:layout_toRightOf="@id/buttonDown"
+			android:backgroundTint="@android:color/transparent"
 			
-			android:src="@drawable/button_move_right"
 			android:contentDescription="@string/contentDescriptionButtonRightFragmentStreamControls"
+			android:layout_alignTop="@+id/buttonLeft"
+			android:src="@drawable/button_move_right"
+			android:layout_toEndOf="@+id/buttonLeft"
+			android:layout_marginStart="20dp"
+			android:layout_marginLeft="40dp"
 			/>
 
 </RelativeLayout>

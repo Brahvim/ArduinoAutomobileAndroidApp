@@ -19,7 +19,7 @@ public final class FragmentStreamControls extends Fragment {
 
 	private ApplicationEspCamStreamViewer context;
 	private FragmentStreamControlsBinding binding;
-	private ThreadEspStream threadEspStream;
+	private ThreadEspJpegStreamer threadEspJpegStreamer;
 	private Activity activityHost;
 	// endregion
 
@@ -57,24 +57,25 @@ public final class FragmentStreamControls extends Fragment {
 	}
 
 	public void threadEspStreamStop() {
-		if (this.threadEspStream == null)
+		if (this.threadEspJpegStreamer == null)
 			return;
 
-		this.threadEspStream.shutdown();
-		this.threadEspStream = null;
+		this.threadEspJpegStreamer.shutdown();
+		this.threadEspJpegStreamer = null;
 	}
 
 	public void threadEspStreamStart() {
-		this.threadEspStream = new ThreadEspStream(
+		this.threadEspJpegStreamer = new ThreadEspJpegStreamer(
 		  this.binding.surfaceViewCamera.getHolder(),
 		  this::threadEspStreamCbckCrash,
 		  this.context.getClient(),
 		  this.context.espIp
 		);
 
-		this.threadEspStream.start();
+		this.threadEspJpegStreamer.start();
 	}
 
+	// Called by crashing thread!
 	public void threadEspStreamCbckCrash() {
 		this.activityHost.runOnUiThread(() -> {
 			super.getFragmentManager()
@@ -82,6 +83,9 @@ public final class FragmentStreamControls extends Fragment {
 				 .replace(R.id.fragmentStream, new FragmentAwaitConnect())
 				 .addToBackStack(null)
 				 .commit();
+
+			// Let the crashing thread actually shutdown:
+			this.threadEspStreamStop();
 		});
 	}
 

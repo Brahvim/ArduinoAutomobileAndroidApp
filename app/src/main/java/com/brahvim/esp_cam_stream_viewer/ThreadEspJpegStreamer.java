@@ -19,7 +19,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class ThreadEspStream extends Thread {
+public class ThreadEspJpegStreamer extends Thread {
 
 	public static class SurfaceHolderCallbackEspStream implements SurfaceHolder.Callback {
 
@@ -55,9 +55,9 @@ public class ThreadEspStream extends Thread {
 	}
 
 	// region Fields.
-	public static final String TAG = ApplicationEspCamStreamViewer.formTag(ThreadEspStream.class);
+	public static final String TAG = ApplicationEspCamStreamViewer.formTag(ThreadEspJpegStreamer.class);
 
-	private ThreadEspStream.SurfaceHolderCallbackEspStream surfaceHolderCallbackEspStream;
+	private ThreadEspJpegStreamer.SurfaceHolderCallbackEspStream surfaceHolderCallbackEspStream;
 	private AtomicBoolean shouldRun = new AtomicBoolean(true);
 	private BitmapFactory.Options bitmapFactoryOptions;
 	private SurfaceHolder surfaceHolder;
@@ -66,18 +66,18 @@ public class ThreadEspStream extends Thread {
 	private String espIp;
 	// endregion
 
-	public ThreadEspStream(final SurfaceHolder p_surfaceHolder, final Runnable p_onCrash, final OkHttpClient p_client, final String p_espIp) {
+	public ThreadEspJpegStreamer(final SurfaceHolder p_surfaceHolder, final Runnable p_onCrash, final OkHttpClient p_client, final String p_espIp) {
 		this.espIp = p_espIp;
 		this.client = p_client;
 		this.crashHandler = p_onCrash;
 		this.surfaceHolder = p_surfaceHolder;
 		this.bitmapFactoryOptions = new BitmapFactory.Options();
-		this.surfaceHolderCallbackEspStream = new ThreadEspStream.SurfaceHolderCallbackEspStream();
+		this.surfaceHolderCallbackEspStream = new ThreadEspJpegStreamer.SurfaceHolderCallbackEspStream();
 	}
 
 	@Override
 	public void run() {
-		super.setName("Esp32CamStreamViewer:JpegStreamer");
+		super.setName("EspCamStreamViewer:EspJpegStreamer");
 		this.surfaceHolder.addCallback(this.surfaceHolderCallbackEspStream);
 
 		Log.i(TAG, "Started streaming thread...");
@@ -126,7 +126,7 @@ public class ThreadEspStream extends Thread {
 				return;
 			}
 
-			Log.i(TAG, "Response OK! Attempting to fetch...");
+			// Log.i(TAG, "Response OK! Attempting to fetch...");
 
 			// region Notes and comments.
 			// HTTP packets are CRLF strings (typewriter-style strings) that use `\r\n` for new lines.
@@ -248,7 +248,7 @@ public class ThreadEspStream extends Thread {
 			for (int i = 0; i < imageBytesListSize; ++i)
 				imageBytesArray[i] = imageBytesList.get(i);
 
-			Log.i(TAG, String.format("Got image data. Array size: `%d` bytes.", imageBytesListSize));
+			// Log.i(TAG, String.format("Got image data. Array size: `%d` bytes.", imageBytesListSize));
 
 			final Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytesArray, 0, imageBytesListSize, this.bitmapFactoryOptions);
 			// this.bitmapFactoryOptions.inBitmap = bitmap; // Uncommented this? Go comment-out the `bitmap::recycle()` call down there!
@@ -257,7 +257,7 @@ public class ThreadEspStream extends Thread {
 				return;
 			}
 
-			Log.i(TAG, "Decoded image.");
+			// Log.i(TAG, "Decoded image.");
 
 			// if (this.surfaceHolder.isCreating()) // Still wondering if we need this, because...
 			// 	return;
@@ -265,9 +265,10 @@ public class ThreadEspStream extends Thread {
 			final Canvas canvas = this.surfaceHolder.lockCanvas(); // ...because this can be `null`! If that check fails!
 
 			if (canvas != null) {
+				canvas.scale(2, 2);
 				canvas.drawBitmap(bitmap, 0, 0, null);
 				this.surfaceHolder.unlockCanvasAndPost(canvas);
-				Log.i(TAG, "Frame drawn!");
+				// Log.i(TAG, "Frame drawn!");
 			}
 
 			bitmap.recycle();
@@ -275,10 +276,8 @@ public class ThreadEspStream extends Thread {
 
 		} catch (final IOException ioe) {
 			Log.e(TAG, "Exception in attempting to fetch `/stream` :(");
+			this.shouldRun.set(false);
 			this.crashHandler.run();
-			this.shutdown();
-		} finally {
-			this.client.connectionPool().evictAll();
 		}
 	}
 

@@ -19,7 +19,7 @@ public final class FragmentStreamOnly extends Fragment {
 
 	private ApplicationEspCamStreamViewer context;
 	private FragmentStreamOnlyBinding binding;
-	private ThreadEspStream threadEspStream;
+	private ThreadEspJpegStreamer threadEspJpegStreamer;
 	private Activity activityHost;
 	// endregion
 
@@ -52,22 +52,22 @@ public final class FragmentStreamOnly extends Fragment {
 	// endregion
 
 	public void threadEspStreamStop() {
-		if (this.threadEspStream == null)
+		if (this.threadEspJpegStreamer == null)
 			return;
 
-		this.threadEspStream.shutdown();
-		this.threadEspStream = null;
+		this.threadEspJpegStreamer.shutdown();
+		this.threadEspJpegStreamer = null;
 	}
 
 	public void threadEspStreamStart() {
-		this.threadEspStream = new ThreadEspStream(
+		this.threadEspJpegStreamer = new ThreadEspJpegStreamer(
 		  this.binding.surfaceViewCamera.getHolder(),
 		  this::threadEspStreamCbckCrash,
 		  this.context.getClient(),
 		  this.context.espIp
 		);
 
-		this.threadEspStream.start();
+		this.threadEspJpegStreamer.start();
 	}
 
 	public void threadEspStreamCbckCrash() {

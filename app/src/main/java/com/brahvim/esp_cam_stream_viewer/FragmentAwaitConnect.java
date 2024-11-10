@@ -17,7 +17,7 @@ public class FragmentAwaitConnect extends Fragment {
 
 	private FragmentAwaitConnectBinding binding;
 	private ApplicationEspCamStreamViewer context;
-	private ThreadMonitorArpCache threadArpCacheMonitor;
+	private ThreadArpCacheMonitor threadArpCacheMonitor;
 	// endregion
 
 	// region `Fragment`-lifecycle callbacks.
@@ -48,18 +48,18 @@ public class FragmentAwaitConnect extends Fragment {
 
 	@SuppressWarnings("deprecation")
 	private void threadArpCacheMonitorCbckEspIpFound(final String p_ip) {
-		Log.i(TAG, String.format("ESP IP found: `%s`.", p_ip));
-		this.context.espIp = p_ip;
-
 		super.getActivity().runOnUiThread(() -> {
+			Log.i(TAG, String.format("ESP IP found: `%s`.", p_ip));
+			this.context.espIp = p_ip;
+
 			super.getFragmentManager()
 				 .beginTransaction()
 				 .replace(R.id.fragmentStream, new FragmentStreamControls())
 				 .addToBackStack(null)
 				 .commit();
-		});
 
-		this.threadArpCacheMonitorStop();
+			this.threadArpCacheMonitorStop();
+		});
 	}
 
 	// region ARP-cache monitor thread management methods.
@@ -72,7 +72,7 @@ public class FragmentAwaitConnect extends Fragment {
 	}
 
 	private void threadArpCacheMonitorStart() {
-		this.threadArpCacheMonitor = new ThreadMonitorArpCache(this.context.getString(R.string.espMac)) {
+		this.threadArpCacheMonitor = new ThreadArpCacheMonitor(this.context.getString(R.string.espMac)) {
 
 			@Override
 			protected void onIpFound(final String p_ip) {

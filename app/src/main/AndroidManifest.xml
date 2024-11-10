@@ -3,6 +3,7 @@
 <manifest
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
+		android:installLocation="preferExternal"
 		>
 	
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -21,6 +22,8 @@
 			>
 		
 		<activity
+				tools:ignore="LockedOrientationActivity"
+				android:screenOrientation="portrait"
 				android:name=".ActivityMain"
 				android:exported="true"
 				>

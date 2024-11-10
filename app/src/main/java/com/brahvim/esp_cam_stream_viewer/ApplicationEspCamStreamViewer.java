@@ -18,7 +18,7 @@ public class ApplicationEspCamStreamViewer extends Application {
 
 	@NonNull
 	public static String formTag(final Class<?> p_class) {
-		return "EspCamStreamViewer:" + p_class.getSimpleName();
+		return "Esp:" + p_class.getSimpleName();
 	}
 
 	@NonNull
