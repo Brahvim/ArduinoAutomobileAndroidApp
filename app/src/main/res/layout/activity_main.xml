@@ -2,7 +2,7 @@
 
 <fragment
 		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:name="com.brahvim.esp_cam_stream_viewer.FragmentAwaitConnect"
+		android:name="com.brahvim.esp_cam_stream_viewer.FragmentStreamControls"
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
 		android:id="@+id/fragmentStream"
