@@ -69,13 +69,14 @@ public abstract class ThreadArpCacheMonitor extends Thread {
 				final String mac = s.substring(idsMacsStart, s.indexOf(' ', idsMacsStart));
 
 				if (this.macToFind.equals(mac)) {
-					this.arpLines.clear();
 					this.onIpFound(s.substring(0, s.indexOf(' ')));
 				}
 			}
 
 		} catch (final IOException ioe) {
 			ioe.printStackTrace();
+		} finally {
+			this.arpLines.clear();
 		}
 	}
 
